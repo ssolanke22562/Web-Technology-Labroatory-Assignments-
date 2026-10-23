@@ -10,6 +10,7 @@ This repository contains the laboratory assignments completed for the **Web Tech
 | [**Assignment 2**](./Assignment%202) | Interactive Calculator | HTML5, CSS3, JavaScript |
 | [**Assignment 3**](./Assignment%203) | Dynamic Registration & Form Processing | HTML5, CSS3, JavaScript, PHP |
 | [**Assignment 4**](./Assignment%204) | Full-Stack MERN Application (Portfolio & REST API) | React (Vite), Node.js, Express, MongoDB, Tailwind CSS |
+| [**Assignment 5**](./Assignment%205) | React Application (Props, State & Counter) | React 19, Vite, CSS3 |
 | [**Assignment 10**](./Assignment%2010) | Student Management CRUD API & Serverless Functions | Node.js, Express, MongoDB / Mongoose, Vercel & Netlify Serverless Functions |
 
 ---

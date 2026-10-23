@@ -1,0 +1,67 @@
+.container {
+text-align: center;
+font-family: Arial, sans-serif;
+padding: 30px;
+}
+
+h1 {
+color: #2563eb;
+}
+
+.student-card {
+background-color: #f1f5f9;
+padding: 20px;
+margin: 25px auto;
+max-width: 400px;
+border-radius: 10px;
+box-shadow: 0 4px 8px #00000020;
+}
+
+.student-card h2 {
+color: #2563eb;
+}
+
+.counter-section,
+.counter {
+  margin-top: 30px;
+}
+
+.counter-section h2,
+.counter h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.counter-section button,
+.counter button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  margin: 6px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.counter-section button:hover,
+.counter button:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+}
+
+.counter-section button:active,
+.counter button:active {
+  transform: translateY(0);
+}
