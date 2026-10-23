@@ -12,6 +12,7 @@ This repository contains the laboratory assignments completed for the **Web Tech
 | [**Assignment 4**](./Assignment%204) | Full-Stack MERN Application (Portfolio & REST API) | React (Vite), Node.js, Express, MongoDB, Tailwind CSS |
 | [**Assignment 5**](./Assignment%205) | React Application (Props, State & Counter) | React 19, Vite, CSS3 |
 | [**Assignment 6**](./Assignment%206) | React API Data Fetching with Axios (Loading & Error States) | React 19, Axios, Vite, CSS3 |
+| [**Assignment 7**](./Assignment%207) | User Registration Form (Controlled Components & Validation) | React 19, Vite, Canvas Confetti, CSS3 |
 | [**Assignment 10**](./Assignment%2010) | Student Management CRUD API & Serverless Functions | Node.js, Express, MongoDB / Mongoose, Vercel & Netlify Serverless Functions |
 
 ---
