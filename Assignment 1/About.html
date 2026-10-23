@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CARE HOSPITALS - About Us</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: #0066cc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #004080;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+    nav a:hover {
+      background: #00264d;
+    }
+    nav a.active {
+      background: #00264d;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+      text-align: center;
+    }
+    section h1 {
+      color: #004080;
+      margin-bottom: 10px;
+    }
+    section p {
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+    .about-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+      text-align: left;
+    }
+    .about-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .about-card h3 {
+      color: #0066cc;
+      margin-bottom: 10px;
+    }
+    section img {
+      width: 250px;
+      height: auto;
+      margin: 20px auto;
+      display: block;
+    }
+    footer {
+      background: #333;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+    @media (max-width:600px){
+      nav {flex-direction: column;}
+    }
+  </style>
+</head>
+<body>
+  <header>CARE HOSPITALS</header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <section>
+    <h1>About Us</h1>
+    <p>At CARE HOSPITALS, we are dedicated to delivering compassionate, world-class healthcare with a patient-first approach.</p>
+    <img src="C:\Users\sarth\OneDrive\Desktop\Sem 5\WTL\A 1\assets\clinic_hero.png" alt="CARE HOSPITALS Building">
+    <div class="about-content">
+      <div class="about-card">
+        <h3>Our Mission</h3>
+        <p>To provide accessible, affordable, and advanced medical care to every patient with empathy and excellence.</p>
+      </div>
+      <div class="about-card">
+        <h3>Our Vision</h3>
+        <p>To be recognized as a trusted leader in healthcare, setting benchmarks in patient care, innovation, and community service.</p>
+      </div>
+      <div class="about-card">
+        <h3>Our Values</h3>
+        <p>Integrity, compassion, innovation, and teamwork guide us in every step of our journey to heal and serve.</p>
+      </div>
+    </div>
+  </section>
+  <footer>© 2026 CARE HOSPITALS. All rights reserved.</footer>
+
+  <script>
+    // Set current year in footer
+    document.querySelector("footer").innerHTML =
+      "&copy; " + new Date().getFullYear() + " CARE HOSPITALS. All rights reserved.";
+
+    // Highlight active nav link (About is index 1)
+    let links = document.querySelectorAll("nav a");
+    links[1].classList.add("active");
+
+    // Console greeting
+    console.log("About CARE HOSPITALS - Committed to your well-being.");
+  </script>
+</body>
+

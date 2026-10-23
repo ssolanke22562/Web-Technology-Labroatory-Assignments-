@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Portal & Analytics | Express & Serverless</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background Glow FX -->
+  <div class="glow-sphere glow-1"></div>
+  <div class="glow-sphere glow-2"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon">🎓</div>
+        <div>
+          <h1>Student Information & Analytics System</h1>
+          <p class="subtitle">Node.js • Express • MongoDB Mongoose • Vercel/Netlify Serverless</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btnSeedData" class="btn btn-secondary">
+          <span>🌱</span> Seed Sample Data
+        </button>
+        <button id="btnRefreshAll" class="btn btn-primary">
+          <span>🔄</span> Refresh Data
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="dashboard">
+        <span>📊</span> Analytics & Serverless Summary
+      </button>
+      <button class="tab-btn" data-tab="students">
+        <span>👨‍🎓</span> Student Directory & CRUD
+      </button>
+      <button class="tab-btn" data-tab="api-tester">
+        <span>⚡</span> API & Postman Inspector
+      </button>
+    </nav>
+
+    <!-- TAB 1: Analytics & Serverless Summary -->
+    <section id="tab-dashboard" class="tab-content active">
+      <!-- Metric Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card glass-card">
+          <div class="metric-header">
+            <span class="metric-title">Total Enrolled Students</span>
+            <span class="metric-icon">👥</span>
+          </div>
+          <div class="metric-value" id="statTotalStudents">--</div>
+          <div class="metric-footer">
+            <span class="badge badge-serverless">⚡ Serverless Read-Only Endpoint</span>
+          </div>
+        </div>
+
+        <div class="metric-card glass-card">
+          <div class="metric-header">
+            <span class="metric-title">Average Cumulative GPA</span>
+            <span class="metric-icon">⭐</span>
+          </div>
+          <div class="metric-value" id="statAvgGPA">--</div>
+          <div class="metric-footer">
+            <span>Range: <strong id="statGpaRange">0.0 - 0.0</strong></span>
+          </div>
+        </div>
+
+        <div class="metric-card glass-card">
+          <div class="metric-header">
+            <span class="metric-title">Highest Score / Rank 1</span>
+            <span class="metric-icon">🏆</span>
+          </div>
+          <div class="metric-value text-accent" id="statHighestGPA">--</div>
+          <div class="metric-footer">
+            <span id="statTopStudentName">Loading top performer...</span>
+          </div>
+        </div>
+
+        <div class="metric-card glass-card">
+          <div class="metric-header">
+            <span class="metric-title">Avg Attendance Rate</span>
+            <span class="metric-icon">📅</span>
+          </div>
+          <div class="metric-value" id="statAvgAttendance">--</div>
+          <div class="metric-footer">
+            <span class="status-indicator">● Active Academic Period</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Grid: Top Performers & Department Breakdown -->
+      <div class="dashboard-split-grid">
+        <!-- Top Performing Students -->
+        <div class="glass-card panel">
+          <div class="panel-header">
+            <div>
+              <h2>🌟 Top-Performing Students</h2>
+              <p class="panel-subtitle">Sorted by GPA and Attendance (Serverless Read-Only Query)</p>
+            </div>
+            <div class="filter-group">
+              <label for="summaryLimit">Limit:</label>
+              <select id="summaryLimit" class="form-select-sm">
+                <option value="3">Top 3</option>
+                <option value="5" selected>Top 5</option>
+                <option value="10">Top 10</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="topPerformersTable">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Student</th>
+                  <th>Roll No.</th>
+                  <th>Department</th>
+                  <th>GPA</th>
+                  <th>Attendance</th>
+                </tr>
+              </thead>
+              <tbody id="topPerformersBody">
+                <tr><td colspan="6" class="loading-cell">Fetching serverless summary...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Department Breakdown & Performance Distribution -->
+        <div class="glass-card panel">
+          <div class="panel-header">
+            <div>
+              <h2>🏢 Department Distribution</h2>
+              <p class="panel-subtitle">Aggregated metrics per academic department</p>
+            </div>
+          </div>
+          <div id="departmentStatsList" class="dept-stats-container">
+            <div class="loading-cell">Loading department stats...</div>
+          </div>
+
+          <div class="performance-tiers-section">
+            <h3 class="sub-heading">🎯 Performance Tiers</h3>
+            <div id="performanceTiersList" class="tier-tags-container">
+              <!-- Tier items dynamically inserted -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: Student Directory & CRUD Operations -->
+    <section id="tab-students" class="tab-content">
+      <div class="section-toolbar glass-card">
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="searchInput" placeholder="Search by name, roll number, or email..." />
+        </div>
+
+        <div class="filters-wrap">
+          <select id="filterDepartment" class="form-select">
+            <option value="All">All Departments</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Information Technology">Information Technology</option>
+            <option value="Data Science & AI">Data Science & AI</option>
+            <option value="Electronics & Communication">Electronics & Communication</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Electrical Engineering">Electrical Engineering</option>
+          </select>
+
+          <select id="filterSort" class="form-select">
+            <option value="gpa_desc">GPA (Highest First)</option>
+            <option value="gpa_asc">GPA (Lowest First)</option>
+            <option value="name_asc">Name (A-Z)</option>
+            <option value="createdAt_desc">Recently Added</option>
+          </select>
+
+          <button id="btnOpenCreateModal" class="btn btn-accent">
+            <span>➕</span> Add New Student
+          </button>
+        </div>
+      </div>
+
+      <!-- Students Table -->
+      <div class="glass-card panel">
+        <div class="panel-header">
+          <div>
+            <h2>📚 Registered Students</h2>
+            <p class="panel-subtitle" id="studentsCountLabel">Showing all records</p>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="studentsTable">
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Course / Sem</th>
+                <th>GPA</th>
+                <th>Skills</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTableBody">
+              <tr><td colspan="8" class="loading-cell">Loading students...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: API & Postman Inspector -->
+    <section id="tab-api-tester" class="tab-content">
+      <div class="glass-card panel">
+        <div class="panel-header">
+          <div>
+            <h2>⚡ Interactive API & Postman Endpoint Inspector</h2>
+            <p class="panel-subtitle">Test and verify Express CRUD & Serverless endpoints in real-time</p>
+          </div>
+        </div>
+
+        <div class="api-tester-controls">
+          <div class="endpoint-picker">
+            <span class="label">Quick Preset:</span>
+            <button class="btn btn-sm btn-outline preset-btn" data-method="GET" data-url="/api/summary?limit=5">
+              <span class="badge badge-get">GET</span> /api/summary (Serverless)
+            </button>
+            <button class="btn btn-sm btn-outline preset-btn" data-method="GET" data-url="/api/students">
+              <span class="badge badge-get">GET</span> /api/students (All)
+            </button>
+            <button class="btn btn-sm btn-outline preset-btn" data-method="GET" data-url="/api/students?department=Computer%20Science&minGpa=8.0">
+              <span class="badge badge-get">GET</span> /api/students (CS GPA >= 8.0)
+            </button>
+            <button class="btn btn-sm btn-outline preset-btn" data-method="POST" data-url="/api/students">
+              <span class="badge badge-post">POST</span> /api/students (Create)
+            </button>
+            <button class="btn btn-sm btn-outline preset-btn" data-method="GET" data-url="/api/health">
+              <span class="badge badge-get">GET</span> /api/health
+            </button>
+          </div>
+
+          <div class="request-bar">
+            <select id="httpMethod" class="method-select">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+            <input type="text" id="endpointUrl" class="url-input" value="/api/summary?limit=5" />
+            <button id="btnSendRequest" class="btn btn-accent">
+              <span>🚀</span> Send Request
+            </button>
+          </div>
+
+          <div id="requestBodyContainer" class="request-body-wrap" style="display: none;">
+            <label class="label">JSON Request Body (for POST/PUT):</label>
+            <textarea id="requestBodyInput" rows="6" class="code-editor" placeholder="{\n  &quot;rollNumber&quot;: &quot;CS2024-999&quot;,\n  &quot;name&quot;: &quot;Sample Student&quot;,\n  &quot;email&quot;: &quot;sample@example.edu&quot;,\n  &quot;department&quot;: &quot;Computer Science&quot;,\n  &quot;course&quot;: &quot;B.Tech&quot;,\n  &quot;semester&quot;: 5,\n  &quot;gpa&quot;: 9.2,\n  &quot;attendance&quot;: 90,\n  &quot;skills&quot;: [&quot;React&quot;, &quot;Node.js&quot;]\n}"></textarea>
+          </div>
+
+          <div class="response-container">
+            <div class="response-header">
+              <div>
+                <span>Response Status: <strong id="responseStatus" class="status-pill status-ready">Ready</strong></span>
+                <span class="meta-separator">•</span>
+                <span>Time: <span id="responseTime">0 ms</span></span>
+              </div>
+              <button id="btnCopyJson" class="btn btn-sm btn-secondary">📋 Copy JSON</button>
+            </div>
+            <pre class="json-viewer"><code id="jsonOutput">// Click "Send Request" to test any endpoint...</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Create / Edit Student Modal -->
+  <div id="studentModal" class="modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog glass-card">
+      <div class="modal-header">
+        <h2 id="modalTitle">➕ Add New Student Record</h2>
+        <button id="btnCloseModal" class="close-btn">&times;</button>
+      </div>
+      <form id="studentForm" class="modal-body">
+        <input type="hidden" id="studentId" value="" />
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="modalRollNumber">Roll Number *</label>
+            <input type="text" id="modalRollNumber" placeholder="e.g. CS2024-010" required />
+          </div>
+
+          <div class="form-group">
+            <label for="modalName">Full Name *</label>
+            <input type="text" id="modalName" placeholder="e.g. Rohan Sharma" required />
+          </div>
+
+          <div class="form-group full-width">
+            <label for="modalEmail">Email Address *</label>
+            <input type="email" id="modalEmail" placeholder="e.g. rohan.s@example.edu" required />
+          </div>
+
+          <div class="form-group">
+            <label for="modalDepartment">Department *</label>
+            <select id="modalDepartment" required>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Data Science & AI">Data Science & AI</option>
+              <option value="Electronics & Communication">Electronics & Communication</option>
+              <option value="Mechanical Engineering">Mechanical Engineering</option>
+              <option value="Civil Engineering">Civil Engineering</option>
+              <option value="Electrical Engineering">Electrical Engineering</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="modalCourse">Course *</label>
+            <select id="modalCourse" required>
+              <option value="B.Tech">B.Tech</option>
+              <option value="M.Tech">M.Tech</option>
+              <option value="BCA">BCA</option>
+              <option value="MCA">MCA</option>
+              <option value="B.Sc">B.Sc</option>
+              <option value="M.Sc">M.Sc</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="modalSemester">Semester (1-8) *</label>
+            <input type="number" id="modalSemester" min="1" max="8" value="5" required />
+          </div>
+
+          <div class="form-group">
+            <label for="modalGpa">GPA (0.0 - 10.0) *</label>
+            <input type="number" id="modalGpa" step="0.1" min="0" max="10" placeholder="e.g. 9.1" required />
+          </div>
+
+          <div class="form-group">
+            <label for="modalAttendance">Attendance (%)</label>
+            <input type="number" id="modalAttendance" min="0" max="100" value="85" />
+          </div>
+
+          <div class="form-group">
+            <label for="modalSkills">Skills (comma-separated)</label>
+            <input type="text" id="modalSkills" placeholder="e.g. Node.js, Express, MongoDB, Python" />
+          </div>
+        </div>
+
+        <div id="modalAlert" class="alert-box" style="display: none;"></div>
+
+        <div class="modal-footer">
+          <button type="button" id="btnCancelModal" class="btn btn-secondary">Cancel</button>
+          <button type="submit" id="btnSaveStudent" class="btn btn-accent">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

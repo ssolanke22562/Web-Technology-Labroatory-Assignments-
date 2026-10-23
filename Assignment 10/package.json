@@ -1,0 +1,34 @@
+{
+  "name": "wtl-assignment-10-student-crud-serverless",
+  "version": "1.0.0",
+  "description": "Node.js + Mongoose Student CRUD backend with Vercel/Netlify Serverless Summary functions",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/seed.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongoose",
+    "mongodb",
+    "serverless",
+    "vercel",
+    "netlify"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^11.3.0",
+    "nodemon": "^3.1.9"
+  }
+}

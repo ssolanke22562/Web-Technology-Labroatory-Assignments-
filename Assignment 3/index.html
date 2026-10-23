@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern User Registration Portal | PHP Server Integration</title>
+    <meta name="description" content="A state-of-the-art interactive registration form with real-time JavaScript validation and PHP backend server processing.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for crisp UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-decor">
+        <div class="glow-sphere sphere-1"></div>
+        <div class="glow-sphere sphere-2"></div>
+        <div class="glow-sphere sphere-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <main class="app-container">
+        <div class="form-card">
+            <header class="form-header">
+                <div class="badge">
+                    <i class="fa-solid fa-server"></i>
+                    <span>PHP Backend Connected</span>
+                </div>
+                <h1>Create Account</h1>
+                <p>Join our platform today. Fill out your details below to register.</p>
+            </header>
+
+            <form id="registrationForm" action="process.php" method="POST" enctype="multipart/form-data" novalidate>
+                <!-- CSRF Token / Request ID (Simulated) -->
+                <input type="hidden" name="csrf_token" value="<?php echo bin2hex(random_bytes(16)); ?>">
+
+                <div class="form-grid">
+                    <!-- Full Name Field -->
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-user input-icon"></i>
+                            <input type="text" id="fullName" name="fullName" placeholder=" " required autocomplete="name">
+                            <label for="fullName">Full Name</label>
+                        </div>
+                        <span class="error-msg" id="fullNameError">Please enter your full name (at least 2 characters)</span>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" id="email" name="email" placeholder=" " required autocomplete="email">
+                            <label for="email">Email Address</label>
+                        </div>
+                        <span class="error-msg" id="emailError">Please enter a valid email address (e.g. name@domain.com)</span>
+                    </div>
+
+                    <!-- Phone Field -->
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-phone input-icon"></i>
+                            <input type="tel" id="phone" name="phone" placeholder=" " required autocomplete="tel">
+                            <label for="phone">Phone Number</label>
+                        </div>
+                        <span class="error-msg" id="phoneError">Enter a valid 10-digit phone number</span>
+                    </div>
+
+                    <!-- Department / Role Select -->
+                    <div class="input-group">
+                        <div class="input-wrapper select-wrapper">
+                            <i class="fa-solid fa-briefcase input-icon"></i>
+                            <select id="department" name="department" required>
+                                <option value="" disabled selected hidden></option>
+                                <option value="Software Engineering">Software Engineering</option>
+                                <option value="Web Development">Web Development</option>
+                                <option value="UI/UX Design">UI/UX Design</option>
+                                <option value="Data Analytics">Data Analytics</option>
+                                <option value="Cyber Security">Cyber Security</option>
+                            </select>
+                            <label for="department" class="select-label">Department / Role</label>
+                            <i class="fa-solid fa-chevron-down select-arrow"></i>
+                        </div>
+                        <span class="error-msg" id="departmentError">Please select a department</span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="input-group full-width">
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="password" name="password" placeholder=" " required autocomplete="new-password">
+                            <label for="password">Password</label>
+                            <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                        <!-- Password Strength Indicator -->
+                        <div class="strength-meter-container" id="strengthContainer">
+                            <div class="strength-bar">
+                                <div class="strength-progress" id="strengthProgress"></div>
+                            </div>
+                            <span class="strength-label" id="strengthLabel">Password strength</span>
+                        </div>
+                        <span class="error-msg" id="passwordError">Password must be at least 8 chars with uppercase, digit & symbol</span>
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="input-group full-width">
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-shield-halved input-icon"></i>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder=" " required autocomplete="new-password">
+                            <label for="confirmPassword">Confirm Password</label>
+                        </div>
+                        <span class="error-msg" id="confirmPasswordError">Passwords do not match</span>
+                    </div>
+
+                    <!-- Bio / Remarks Field -->
+                    <div class="input-group full-width">
+                        <div class="input-wrapper textarea-wrapper">
+                            <i class="fa-regular fa-pen-to-square input-icon"></i>
+                            <textarea id="bio" name="bio" rows="3" placeholder=" " maxlength="300"></textarea>
+                            <label for="bio">Short Bio / Profile Summary (Optional)</label>
+                        </div>
+                        <div class="char-counter"><span id="charCount">0</span>/300</div>
+                    </div>
+
+                    <!-- Terms & Conditions Checkbox -->
+                    <div class="input-group full-width checkbox-group">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <span class="checkbox-box"><i class="fa-solid fa-check"></i></span>
+                            <span class="checkbox-text">
+                                I agree to the <a href="#" onclick="return false;">Terms of Service</a> and <a href="#" onclick="return false;">Privacy Policy</a>
+                            </span>
+                        </label>
+                        <span class="error-msg" id="termsError">You must accept the terms to proceed</span>
+                    </div>
+                </div>
+
+                <!-- Submit Button Container -->
+                <div class="form-actions">
+                    <button type="submit" id="submitBtn" class="btn-submit">
+                        <span class="btn-text">Submit Registration</span>
+                        <i class="fa-solid fa-arrow-right btn-icon"></i>
+                        <div class="spinner" id="btnSpinner"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Response Modal / Dynamic Server Output Box -->
+    <div class="modal-overlay" id="responseModal">
+        <div class="modal-card">
+            <div class="modal-status-icon" id="modalIcon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2 id="modalTitle">Registration Successful!</h2>
+            <p id="modalMessage">Your data has been sent and processed by the PHP backend server.</p>
+
+            <div class="server-payload" id="serverPayload">
+                <h3><i class="fa-solid fa-code"></i> Server Payload Received:</h3>
+                <pre id="payloadContent"><code>{}</code></pre>
+            </div>
+
+            <button class="btn-secondary" id="closeModalBtn">Done & Close</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

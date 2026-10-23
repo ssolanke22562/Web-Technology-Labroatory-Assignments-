@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "Student CRUD & Serverless Summary API",
+    "_postman_id": "c1f72149-a223-4f90-a337-db7b3f9d51f2",
+    "description": "Postman Collection for testing Node.js + Mongoose Student CRUD routes and the Read-Only Serverless Summary endpoint.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Serverless Summary (Read-Only)",
+      "item": [
+        {
+          "name": "Get Summary & Top Performers (Default)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/summary?limit=5",
+              "host": ["{{base_url}}"],
+              "path": ["api", "summary"],
+              "query": [
+                { "key": "limit", "value": "5" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Summary - Filtered by Department",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/summary?department=Computer Science&limit=3",
+              "host": ["{{base_url}}"],
+              "path": ["api", "summary"],
+              "query": [
+                { "key": "department", "value": "Computer Science" },
+                { "key": "limit", "value": "3" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Student CRUD Operations",
+      "item": [
+        {
+          "name": "Create Student (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rollNumber\": \"CS2024-055\",\n  \"name\": \"Kavya Nair\",\n  \"email\": \"kavya.nair@example.edu\",\n  \"department\": \"Computer Science\",\n  \"course\": \"B.Tech\",\n  \"semester\": 6,\n  \"gpa\": 9.45,\n  \"attendance\": 94,\n  \"skills\": [\"React\", \"Node.js\", \"MongoDB\", \"TypeScript\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/students",
+              "host": ["{{base_url}}"],
+              "path": ["api", "students"]
+            }
+          }
+        },
+        {
+          "name": "Get All Students (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/students?sortBy=gpa&order=desc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "students"],
+              "query": [
+                { "key": "sortBy", "value": "gpa" },
+                { "key": "order", "value": "desc" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search / Filter Students",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/students?department=Computer Science&minGpa=8.5",
+              "host": ["{{base_url}}"],
+              "path": ["api", "students"],
+              "query": [
+                { "key": "department", "value": "Computer Science" },
+                { "key": "minGpa", "value": "8.5" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Student by ID / Roll Number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/students/CS2024-055",
+              "host": ["{{base_url}}"],
+              "path": ["api", "students", "CS2024-055"]
+            }
+          }
+        },
+        {
+          "name": "Update Student by Roll Number / ID (PUT)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"gpa\": 9.65,\n  \"attendance\": 97,\n  \"skills\": [\"React\", \"Node.js\", \"MongoDB\", \"GraphQL\", \"Docker\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/students/CS2024-055",
+              "host": ["{{base_url}}"],
+              "path": ["api", "students", "CS2024-055"]
+            }
+          }
+        },
+        {
+          "name": "Delete Student (DELETE)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/students/CS2024-055",
+              "host": ["{{base_url}}"],
+              "path": ["api", "students", "CS2024-055"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Health Check",
+      "item": [
+        {
+          "name": "Check Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "health"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    }
+  ]
+}
